@@ -1,3 +1,4 @@
 class Juego{
-public List<Palabra> listaDePalabras{get; set;}
+public List<Partida> listaDePartidas{get; set;}
+
 }
