@@ -6,75 +6,102 @@ class Partida
     public int cantIntentos { get; private set; }
     public Partida(string Palabra)
     {
-        palabra = Palabra;
-        foreach(char letra in palabra){
+        palabra = Palabra.ToUpper();
+        foreach (char letra in palabra)
+        {
             letrasCorrectas.Add('_');
         }
+        cantIntentos = 6;
     }
 
-    public bool siSeUso(char letra){
-        bool siSeUso= false;
-        siSeUso = buscarLetra(letra,letrasCorrectas);
-        if(!siSeUso){siSeUso = buscarLetra(letra,letrasFallidas);}
+    public bool siSeUso(char letra)
+    {
+        bool siSeUso = false;
+        siSeUso = buscarLetra(letra, letrasCorrectas);
+        if (!siSeUso) { siSeUso = buscarLetra(letra, letrasFallidas); }
         return siSeUso;
 
     }
-    public bool esCorrecta (char letra)
+    public bool esCorrecta(char letra)
     {
         bool esCorrecta = false;
-        esCorrecta = buscarLetra(letra, palabra);
-        if(esCorrecta){
-            foreach(char letr)
-        letrasCorrectas[palabra.IndexOf(letra)]=letra;
-        }else{
-            letrasFallidas.Add(letra);
+        for (int i = 0; i < palabra.Length; i++)
+        {
+            if (palabra[i] == letra)
+            {
+                letrasCorrectas[i] = letra;
+                esCorrecta = true;
+            }
         }
-        cantIntentos++;
+        if (!esCorrecta)
+        {
+            if (!letrasFallidas.Contains(letra))
+            {
+                letrasFallidas.Add(letra);
+                cantIntentos--;
+            }
+        }
         return esCorrecta;
     }
-    public bool encontroLaPalabra(string palabraArriesgada){
+    public bool encontroLaPalabra(string palabraArriesgada)
+    {
         bool encontrada = false;
-        if(palabraArriesgada == palabra){
+        if (palabraArriesgada == palabra)
+        {
             encontrada = true;
         }
         return encontrada;
     }
-     public bool encontroLaPalabra(){
-         bool encontrada = true;
-         bool estaLaLetra = false;
-         int i = 0;
-         while(encontrada && i<palabra.Count()){
-            estaLaLetra = buscarLetra(palabra[i],letrasCorrectas);
-            if(!estaLaLetra){
-            encontrada= false;
-            }else{
-                i++;
+    public bool encontroLaPalabra()
+    {
+        bool encontrada = true;
+        foreach (char letra in palabra)
+        {
+            for (int i = 0; i < palabra.Length; i++)
+            {
+                if (palabra[i] == letra)
+                {
+                    letrasCorrectas[i] = letra;
+                }
             }
-         }
-         return encontrada;
+        }
+        foreach (char c in letrasCorrectas)
+        {
+            if (c == '_')
+            {
+                encontrada = false;
+            }
+
+        }
+        return encontrada;
     }
 
-    public bool buscarLetra(char letra, List<char> listaABuscar){
-        bool seEncontro= false;
+    public bool buscarLetra(char letra, List<char> listaABuscar)
+    {
+        bool seEncontro = false;
         int i = 0;
-        while(!seEncontro && i<listaABuscar.Count()){
-           if(listaABuscar[i] == letra){
-            seEncontro=true;
-           }else{i++;}
+        while (!seEncontro && i < listaABuscar.Count())
+        {
+            if (listaABuscar[i] == letra)
+            {
+                seEncontro = true;
+            }
+            else { i++; }
         }
         return seEncontro;
     }
-      public bool buscarLetra(char letra, string palabra){
-        bool seEncontro= false;
+    public bool buscarLetra(char letra, string palabra)
+    {
+        bool seEncontro = false;
         int i = 0;
-        while(!seEncontro && i<palabra.Count()){
-           if(palabra[i] == letra){
-            seEncontro=true;
-           }else{i++;}
+        while (!seEncontro && i < palabra.Count())
+        {
+            if (palabra[i] == letra)
+            {
+                seEncontro = true;
+            }
+            else { i++; }
         }
         return seEncontro;
     }
-
-
-
 }
